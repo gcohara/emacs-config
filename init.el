@@ -50,10 +50,8 @@
             (exec-path-from-shell-initialize))
   )
 
-(use-package diff-hl
+(use-package diff-hl :ensure
   :hook
-  (prog-mode . siren-turn-on-diff-hl-mode)
-  (text-mode . siren-turn-on-diff-hl-mode)
   (dired-mode . diff-hl-dired-mode)
   (magit-pre-refresh . diff-hl-magit-pre-refresh)
   (magit-post-refresh . diff-hl-magit-post-refresh)
@@ -70,10 +68,6 @@
      (ignored . "i")))
 
   :preface
-  (defun siren-turn-on-diff-hl-mode ()
-    (diff-hl-mode)
-    (diff-hl-flydiff-mode 1))
-
   (defgroup siren-diff-hl nil
     "Siren specific tweaks to diff-hl."
     :group 'diff-hl)
@@ -105,6 +99,7 @@
   :config
   (siren-diff-hl-set-render-mode)
   (fringe-mode 3)
+  (diff-hl-flydiff-mode 1)
 
   (define-fringe-bitmap 'siren-diff-hl-insert
     [#b11111111] nil nil '(center repeated))
@@ -112,6 +107,7 @@
     [#b11111111] nil nil '(center repeated))
   (define-fringe-bitmap 'siren-diff-hl-delete
     [#b11111111] nil nil '(center repeated)))
+(global-diff-hl-mode)
 
 ;; (use-package rustic
 ;;   :bind(:map rustic-mode-map
