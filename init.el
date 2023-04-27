@@ -6,26 +6,58 @@
 ;;;;;;;;;; PACKAGE ZONE ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(add-to-list 'package-archives
+             '("melpa-stable" . "https://stable.melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("gnu" . "https://elpa.gnu.org/packages/"))
 
-(require 'package)
-;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" .
-                                 "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("gnu" .
-                                 "https://elpa.gnu.org/packages/"))
-(package-initialize)
-(package-refresh-contents)
+;; (package-initialize)
+;; (package-refresh-contents)
+;; Change font
+(set-frame-font "IBM Plex Mono-14" nil t)
 
-(eval-when-compile
-  (require 'use-package))
-(use-package rustic
-  :ensure
-  :bind(:map rustic-mode-map
-             ("M-j" . lsp-ui-imenu)
-             ("M-?" . lsp-find-references)
-             ("C-c C-c a" . lsp-execute-code-action)
-             ("C-c C-c r" . lsp-rename)
-             ("C-c C-c q" . lsp-workspace-restart)))
+;; USE-PACKAGE 
+;; Package used for configuration, loading, and downloading of packages
+;; :init to run code before loading,
+;; :config to run code after loading
+(eval-when-compile (require 'use-package))
+
+;; SIMPLECLIP
+;; Make the Emacs kill ring and system clipboard independent
+(use-package simpleclip :ensure
+  :config
+  (simpleclip-mode 1))
+;; EXPAND-REGION
+;; Provides us with a shortcut to increase a selected region by semantic
+;; units, i.e by word, then sentence, then quotes, brackets etc
+(use-package expand-region :ensure
+  :bind ("C-=" . 'er/expand-region))
+;; MAGIT
+(use-package magit :ensure)
+(use-package company :ensure)
+;; MOE THEME
+;; Provides us with the theme
+(use-package moe-theme :ensure
+  :config 'moe-dark)
+;; EGLOT
+;; LSP integration
+(use-package eglot :ensure)
+;; EXEC-PATH-FROM-SHELL
+;; Include path in shell when using terminal in emacs
+(use-package exec-path-from-shell :ensure
+  :config (when (memq window-system '(mac ns x))
+            (exec-path-from-shell-initialize))
+  )
+
+
+;; (use-package rustic
+;;   :ensure
+;;   :bind(:map rustic-mode-map
+;;              ("M-j" . lsp-ui-imenu)
+;;              ("M-?" . lsp-find-references)
+;;              ("C-c C-c a" . lsp-execute-code-action)
+;;              ("C-c C-c r" . lsp-rename)
+;;              ("C-c C-c q" . lsp-workspace-restart)))
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
@@ -42,19 +74,12 @@
 (setq lsp-log-io t)
 (add-hook 'python-mode-hook #'lsp) ; Autostart LSP for Python buffers
 
-
-;; We need Emacs kill ring and system clipboard to be independent.
-(require 'simpleclip)
-(simpleclip-mode 1)
-(require 'expand-region)
-
+;; Allows us to move around windows using shift and arrow keys
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 
-;; Include path in shell
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
-(setq
+;; Setq-default sets for all buffers
+(setq-default
  inhibit-startup-message t         ; Don't show the startup message...
  inhibit-startup-screen t          ; ... or screen
  cursor-in-non-selected-windows t  ; Hide the cursor in inactive windows
@@ -64,50 +89,66 @@
  sentence-end-double-space nil     ; Sentences should end in one space, come on!
  confirm-kill-emacs 'y-or-n-p      ; y and n instead of yes and no when quitting
  help-window-select t              ; Select help window so it's easy to quit it'q'
- fringe-mode 'minimal
+ fringe-mode 'minimal              ; Minimal fringes
+ make-backup-files nil             ; Don't bother with backups
+ truncate-lines t                  ; Truncate long lines rather than wrap around
+ frame-title-format "%b (%f)"      ; Show full path in the title bar.
+ tab-width 2                       ; Default tab width
+ indent-tabs-mode nil              ; By default, never indent using tabs
  )
 
-;; Decide how long lines are displayed
-(setq-default truncate-lines t)
+
+(setq
+ highlight-indent-guides-method 'character
+ highlight-indent-guides-responsive 'nil
+ highlight-indent-guides-delay 100
+ )
+; Company mode
+(setq company-dabbrev-downcase 0 
+      company-idle-delay 0.0
+      company-minimum-prefix-length 1)
+;; C related
+(setq c-default-style "linux"
+      c-basic-offset 4
+      c-basic-indent 4)
+;; Parenthesis hightlighting
+(setq show-paren-delay 0.0)
+(setq show-paren-style 'expression)
+;; Ido mode
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(setq ido-auto-merge-work-directories-length -1)
+
+(add-hook 'minibuffer-setup-hook 'turn-on-visual-line-mode)
+(add-hook 'text-mode-hook 'visual-line-mode)
+(add-hook 'geiser-repl-mode-hook 'visual-line-mode)
+(add-hook 'neotree-mode-hook 'disable-line-numbers)
+(add-hook 'server-done-hook 'switch-back-focus)
+;; Highlight indent levels
+(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+;; Com(lete)Any(thing)
+(add-hook 'after-init-hook 'global-company-mode)
+
 ;; Ensures visual line mode is on.
 (defun turn-on-visual-line-mode ()
   (visual-line-mode 1))
 (defun disable-line-numbers ()
   (display-line-numbers-mode 0))
-(add-hook 'minibuffer-setup-hook 'turn-on-visual-line-mode)
-(add-hook 'text-mode-hook 'visual-line-mode)
-(add-hook 'geiser-repl-mode-hook 'visual-line-mode)
-(add-hook 'neotree-mode-hook 'disable-line-numbers)
-(setq make-backup-files nil)            ; Don't bother with backups
+
 ;; Hide toolbar and scroll bar
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-;; Show full path in the title bar.
-(setq-default frame-title-format "%b (%f)")
-;; Never use tabs, use spaces instead.
-(setq tab-width 2)
-(setq-default indent-tabs-mode nil)     ; stops indentation using tabs
-(setq-default tab-width 2)
-;; C related
-(setq c-default-style "k&r"
-      c-basic-offset 4
-      c-basic-indent 4)
+(show-paren-mode t)
+(ido-mode 1)
+;; Electric brackets
+(electric-pair-mode 1)
+(delete-selection-mode 1) ;; delete selected text when typing
 
-;; Parenthesis hightlighting
-(setq show-paren-delay 0.0)
-(show-paren-mode 1)
-(setq show-paren-style 'parenthesis)
+
 
 ;; Move focus back to terminal after closing a server window
 (defun switch-back-focus ()
   (shell-command "open -a iTerm"))
-(add-hook 'server-done-hook 'switch-back-focus)
-
-;; Ido mode
-(ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(setq ido-auto-merge-work-directories-length -1)
 
 ;; Ignore some buffers in Ido
 (defun my-ido-ignore-func (name)
@@ -118,42 +159,24 @@
 (setq my-unignored-buffers '("*terminal*"))
 (setq ido-ignore-buffers '("\\` " my-ido-ignore-func "magit"))
 
-;; Electric brackets
-(electric-pair-mode 1)
-;; Highlight indent levels
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-
-(setq highlight-indent-guides-method 'character
-      highlight-indent-guides-responsive 'nil
-      highlight-indent-guides-delay 100)
-
-;; Com(lete)Any(thing)
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-(setq company-dabbrev-downcase 0)
-(setq company-idle-delay 0.0)
-(setq company-minimum-prefix-length 1)
-(require 'color)
- (let ((bg (face-attribute 'default :background)))
-  (custom-set-faces
-   `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
-   `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
-   `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
-   `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
-   `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 
 
-;; Change font
-(set-frame-font "IBM Plex Mono-12" nil t)
 
-;; Start server for emacs client
-(server-start)
 
-;; Geiser settings, let know where guile is
-(setq geiser-guile-binary "/usr/local/bin/guile")
-(setq geiser-debug-show-debug-p nil)
 
-(delete-selection-mode 1) ;; delete selected text when typing
+
+
+;; ;;  color package
+;;  (let ((bg (face-attribute 'default :background)))
+;;   (custom-set-faces
+;;    `(company-tooltip ((t (:inherit default :background ,(color-lighten-name bg 2)))))
+;;    `(company-scrollbar-bg ((t (:background ,(color-lighten-name bg 10)))))
+;;    `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
+;;    `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
+;;    `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
+
+
+
 
 
 
@@ -161,7 +184,7 @@
 ;;;;;;;;;;;;;;; KEYBINDING ZONE ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; =============
+                                        ; =============
 ;; MODIFIER KEYS
 ;; Both command keys are 'Super'
 (setq mac-right-command-modifier 'super)
@@ -183,17 +206,17 @@
 (global-set-key (kbd "M-7") 'xah-select-line)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
-(global-set-key (kbd "C-=") 'er/expand-region)
+
 (global-set-key (kbd "C-S-M-r") 'revert-buffer-all)
 
 (defun comment-or-uncomment-region-or-line ()
-    "Comments or uncomments the region or the current line if there's no active region."
-    (interactive)
-    (let (beg end)
-        (if (region-active-p)
-            (setq beg (region-beginning) end (region-end))
-            (setq beg (line-beginning-position) end (line-end-position)))
-        (comment-or-uncomment-region beg end)))
+  "Comments or uncomments the region or the current line if there's no active region."
+  (interactive)
+  (let (beg end)
+    (if (region-active-p)
+        (setq beg (region-beginning) end (region-end))
+      (setq beg (line-beginning-position) end (line-end-position)))
+    (comment-or-uncomment-region beg end)))
 ;; Smarter move from Bozhidar Batsov
 (defun smarter-move-beginning-of-line (arg)
   (interactive "^p")
@@ -314,13 +337,12 @@ Added a space into $skipChars - may cause trouble, may not - gcoh"
  '(lsp-rust-analyzer-diagnostics-disabled ["\"unresolved-proc-macro\""])
  '(lsp-rust-analyzer-proc-macro-enable t)
  '(lsp-ui-doc-border "#FFFFEF")
- '(magit-diff-use-overlays nil)
  '(neo-window-fixed-size nil)
  '(neo-window-width 15)
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb"))
  '(package-selected-packages
-   '(tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
+   '(eglot tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
  '(pos-tip-background-color "#4F4F4F")
  '(pos-tip-foreground-color "#FFFFEF")
  '(rust-indent-offset 4)
@@ -378,6 +400,3 @@ Added a space into $skipChars - may cause trouble, may not - gcoh"
  '(font-lock-comment-face ((t (:foreground "DarkGoldenrod4" :slant italic))))
  '(font-lock-type-face ((t (:foreground "#66D9EF" :slant italic)))))
 (put 'scroll-left 'disabled nil)
-;; ## added by OPAM user-setup for emacs / base ## 56ab50dc8996d2bb95e7856a6eddb17b ## you can edit, but keep this line
-(require 'opam-user-setup "~/.emacs.d/opam-user-setup.el")
-;; ## end of OPAM user-setup addition for emacs / base ## keep this line
