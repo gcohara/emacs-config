@@ -6,6 +6,7 @@
 ;;;;;;;;;; PACKAGE ZONE ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives
@@ -124,7 +125,7 @@
 (add-hook 'geiser-repl-mode-hook 'visual-line-mode)
 (add-hook 'neotree-mode-hook 'disable-line-numbers)
 ;; (add-hook 'server-done-hook 'switch-back-focus)
-(add-hook 'c-mode (indent-tabs-mode 'only))
+(add-hook 'c-mode '(indent-tabs-mode 'only))
 ;; Highlight indent levels
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 ;; Com(lete)Any(thing)
