@@ -123,7 +123,8 @@
 (add-hook 'text-mode-hook 'visual-line-mode)
 (add-hook 'geiser-repl-mode-hook 'visual-line-mode)
 (add-hook 'neotree-mode-hook 'disable-line-numbers)
-(add-hook 'server-done-hook 'switch-back-focus)
+;; (add-hook 'server-done-hook 'switch-back-focus)
+(add-hook 'c-mode (indent-tabs-mode 'only))
 ;; Highlight indent levels
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 ;; Com(lete)Any(thing)
