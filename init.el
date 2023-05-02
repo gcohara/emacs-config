@@ -6,6 +6,7 @@
 ;;;;;;;;;; PACKAGE ZONE ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(require 'package)
 (add-to-list 'package-archives
              '("melpa-stable" . "https://stable.melpa.org/packages/"))
 (add-to-list 'package-archives
@@ -49,9 +50,70 @@
             (exec-path-from-shell-initialize))
   )
 
+(use-package diff-hl
+  :hook
+  (prog-mode . siren-turn-on-diff-hl-mode)
+  (text-mode . siren-turn-on-diff-hl-mode)
+  (dired-mode . diff-hl-dired-mode)
+  (magit-pre-refresh . diff-hl-magit-pre-refresh)
+  (magit-post-refresh . diff-hl-magit-post-refresh)
+  (desktop-after-read . siren-diff-hl-set-render-mode)
+
+  :custom
+  (diff-hl-fringe-bmp-function 'siren-diff-hl-fringe-bmp-from-type)
+  (diff-hl-fringe-face-function 'siren-diff-hl-fringe-face-from-type)
+  (diff-hl-margin-symbols-alist
+   '((insert . "┃")
+     (delete . "┃")
+     (change . "┃")
+     (unknown . "?")
+     (ignored . "i")))
+
+  :preface
+  (defun siren-turn-on-diff-hl-mode ()
+    (diff-hl-mode)
+    (diff-hl-flydiff-mode 1))
+
+  (defgroup siren-diff-hl nil
+    "Siren specific tweaks to diff-hl."
+    :group 'diff-hl)
+
+  (defface siren-diff-hl-insert
+    '((default :inherit diff-hl-insert))
+    "Face used to highlight inserted lines."
+    :group 'siren-diff-hl)
+
+  (defface siren-diff-hl-delete
+    '((default :inherit diff-hl-delete))
+    "Face used to highlight deleted lines."
+    :group 'siren-diff-hl)
+
+  (defface siren-diff-hl-change
+    '((default :inherit diff-hl-change))
+    "Face used to highlight changed lines."
+    :group 'siren-diff-hl)
+
+  (defun siren-diff-hl-fringe-face-from-type (type _pos)
+    (intern (format "siren-diff-hl-%s" type)))
+
+  (defun siren-diff-hl-fringe-bmp-from-type(type _pos)
+    (intern (format "siren-diff-hl-%s" type)))
+
+  (defun siren-diff-hl-set-render-mode ()
+    (diff-hl-margin-mode (if window-system -1 1)))
+
+  :config
+  (siren-diff-hl-set-render-mode)
+  (fringe-mode 3)
+
+  (define-fringe-bitmap 'siren-diff-hl-insert
+    [#b11111111] nil nil '(center repeated))
+  (define-fringe-bitmap 'siren-diff-hl-change
+    [#b11111111] nil nil '(center repeated))
+  (define-fringe-bitmap 'siren-diff-hl-delete
+    [#b11111111] nil nil '(center repeated)))
 
 ;; (use-package rustic
-;;   :ensure
 ;;   :bind(:map rustic-mode-map
 ;;              ("M-j" . lsp-ui-imenu)
 ;;              ("M-?" . lsp-find-references)
@@ -97,7 +159,6 @@
  indent-tabs-mode nil              ; By default, never indent using tabs
  )
 
-
 (setq
  highlight-indent-guides-method 'character
  highlight-indent-guides-responsive 'nil
@@ -124,7 +185,7 @@
 (add-hook 'geiser-repl-mode-hook 'visual-line-mode)
 (add-hook 'neotree-mode-hook 'disable-line-numbers)
 ;; (add-hook 'server-done-hook 'switch-back-focus)
-(add-hook 'c-mode (indent-tabs-mode 'only))
+(add-hook 'c-mode '(indent-tabs-mode 'only))
 ;; Highlight indent levels
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 ;; Com(lete)Any(thing)
@@ -159,13 +220,6 @@
        (not (member name my-unignored-buffers))))
 (setq my-unignored-buffers '("*terminal*"))
 (setq ido-ignore-buffers '("\\` " my-ido-ignore-func "magit"))
-
-
-
-
-
-
-
 
 ;; ;;  color package
 ;;  (let ((bg (face-attribute 'default :background)))
@@ -290,22 +344,12 @@ Added a space into $skipChars - may cause trouble, may not - gcoh"
    '("27a1dd6378f3782a593cc83e108a35c2b93e5ecc3bd9057313e1d88462701fcd" "51ec7bfa54adf5fff5d466248ea6431097f5a18224788d0bd7eb1257a4f7b773" "13a8eaddb003fd0d561096e11e1a91b029d3c9d64554f8e897b2513dbf14b277" "2809bcb77ad21312897b541134981282dc455ccd7c14d74cc333b6e549b824f3" "e61752b5a3af12be08e99d076aedadd76052137560b7e684a8be2f8d2958edc3" "ae65ccecdcc9eb29ec29172e1bfb6cadbe68108e1c0334f3ae52414097c501d2" "7f1d414afda803f3244c6fb4c2c64bea44dac040ed3731ec9d75275b9e831fe5" "830877f4aab227556548dc0a28bf395d0abe0e3a0ab95455731c9ea5ab5fe4e1" "ae88c445c558b7632fc2d72b7d4b8dfb9427ac06aa82faab8d760fff8b8f243c" "18cd5a0173772cdaee5522b79c444acbc85f9a06055ec54bb91491173bc90aaa" "285d1bf306091644fb49993341e0ad8bafe57130d9981b680c1dbd974475c5c7" "c433c87bd4b64b8ba9890e8ed64597ea0f8eb0396f4c9a9e01bd20a04d15d358" "0fffa9669425ff140ff2ae8568c7719705ef33b7a927a0ba7c5e2ffcfac09b75" "f9aede508e587fe21bcfc0a85e1ec7d27312d9587e686a6f5afdbb0d220eab50" "d1ede12c09296a84d007ef121cd72061c2c6722fcb02cb50a77d9eae4138a3ff" "983eb22dae24cab2ce86ac26700accbf615a3f41fef164085d829fe0bcd3c236" "83ae405e25a0a81f2840bfe5daf481f74df0ddb687f317b5e005aa61261126e9" default))
  '(display-fill-column-indicator t)
  '(display-fill-column-indicator-character 124)
- '(display-fill-column-indicator-column 80)
+ '(display-fill-column-indicator-column 120)
  '(eglot-ignored-server-capabilities '(:documentHighlightProvider :hoverProvider))
  '(eglot-put-doc-in-help-buffer t)
  '(fci-rule-color "#4F4F4F")
  '(font-lock-support-mode 'jit-lock-mode)
- '(fringe-mode '(1 . 1) nil (fringe))
- '(geiser-debug-jump-to-debug-p nil)
- '(geiser-mode-autodoc-p nil)
- '(geiser-mode-smart-tab-p t)
- '(geiser-repl-autodoc-p nil)
- '(global-eldoc-mode nil)
- '(haskell-indentation-layout-offset 2)
- '(haskell-indentation-left-offset 2)
- '(haskell-indentation-starter-offset 2)
- '(haskell-indentation-where-post-offset 2)
- '(haskell-indentation-where-pre-offset 2)
+ ;; '(global-eldoc-mode nil)
  '(highlight-changes-colors '("#DC8CC3" "#bbb0cb"))
  '(highlight-symbol-colors
    '("#680f63eb5998" "#54db645064d0" "#6097535f5322" "#5c2859a95fa1" "#4ede55f24ea4" "#64dd5979525e" "#530060d16157"))
