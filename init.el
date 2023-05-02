@@ -195,10 +195,6 @@
 ;; Right Alt (option) can be used to enter symbols like euros '€'.
 (setq mac-right-option-modifier 'nil)
 ;; Use ESC as universal get me out of here command
-(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
-(global-set-key (kbd "s-s") 'save-buffer)             ;; save
-(global-set-key (kbd "s-S") 'write-file)              ;; save as
-(global-set-key (kbd "s-q") 'save-buffers-kill-emacs) ;; quit
 (global-set-key (kbd "s-a") 'mark-whole-buffer)       ;; select all
 (global-set-key (kbd "s-z") 'undo)
 (global-set-key (kbd "C-c C-;") 'comment-or-uncomment-region-or-line)
