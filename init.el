@@ -257,6 +257,7 @@
 (global-set-key (kbd "M-7") 'xah-select-line)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
+(global-set-key (kbd "M-<delete>") 'kill-word)
 
 (global-set-key (kbd "C-S-M-r") 'revert-buffer-all)
 
