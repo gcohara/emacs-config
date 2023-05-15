@@ -245,10 +245,6 @@
 ;; Right Alt (option) can be used to enter symbols like euros '€'.
 (setq mac-right-option-modifier 'nil)
 ;; Use ESC as universal get me out of here command
-(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
-(global-set-key (kbd "s-s") 'save-buffer)             ;; save
-(global-set-key (kbd "s-S") 'write-file)              ;; save as
-(global-set-key (kbd "s-q") 'save-buffers-kill-emacs) ;; quit
 (global-set-key (kbd "s-a") 'mark-whole-buffer)       ;; select all
 (global-set-key (kbd "s-z") 'undo)
 (global-set-key (kbd "C-c C-;") 'comment-or-uncomment-region-or-line)
@@ -350,7 +346,6 @@ Added a space into $skipChars - may cause trouble, may not - gcoh"
  '(eglot-put-doc-in-help-buffer t)
  '(fci-rule-color "#4F4F4F")
  '(font-lock-support-mode 'jit-lock-mode)
- ;; '(global-eldoc-mode nil)
  '(highlight-changes-colors '("#DC8CC3" "#bbb0cb"))
  '(highlight-symbol-colors
    '("#680f63eb5998" "#54db645064d0" "#6097535f5322" "#5c2859a95fa1" "#4ede55f24ea4" "#64dd5979525e" "#530060d16157"))
@@ -384,7 +379,7 @@ Added a space into $skipChars - may cause trouble, may not - gcoh"
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb"))
  '(package-selected-packages
-   '(eglot tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
+   '(diff-hl eglot tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
  '(pos-tip-background-color "#4F4F4F")
  '(pos-tip-foreground-color "#FFFFEF")
  '(rust-indent-offset 4)
