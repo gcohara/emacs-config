@@ -227,6 +227,9 @@
 ;;    `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
 
 
+;;;; Org mode
+(setq org-hide-emphasis-markers t)
+
 
 
 
