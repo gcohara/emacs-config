@@ -17,11 +17,31 @@
 ;; Change font
 (set-frame-font "IBM Plex Mono-14" nil t)
 
+
 ;; USE-PACKAGE 
 ;; Package used for configuration, loading, and downloading of packages
 ;; :init to run code before loading,
 ;; :config to run code after loading
 (eval-when-compile (require 'use-package))
+
+;; ORG-MODE
+(use-package org
+  :bind
+  (:map org-mode-map
+        ("<M-right>" . nil)
+        ("<M-left>" . nil))
+  :config
+  (setq
+   org-hide-emphasis-markers t
+   org-adapt-indentation t
+   org-startup-folded t
+   org-clock-mode-line-total 'current))
+
+;; ADAPTIVE-WRAP
+;; Makes wrapped lines indented
+(use-package adaptive-wrap :ensure)
+(setq adaptive-wrap-extra-indent 2)
+(adaptive-wrap-prefix-mode)
 
 ;; SIMPLECLIP
 ;; Make the Emacs kill ring and system clipboard independent
@@ -160,7 +180,7 @@
  highlight-indent-guides-responsive 'nil
  highlight-indent-guides-delay 100
  )
-; Company mode
+                                        ; Company mode
 (setq company-dabbrev-downcase 0 
       company-idle-delay 0.0
       company-minimum-prefix-length 1)
@@ -225,14 +245,6 @@
 ;;    `(company-scrollbar-fg ((t (:background ,(color-lighten-name bg 5)))))
 ;;    `(company-tooltip-selection ((t (:inherit font-lock-function-name-face))))
 ;;    `(company-tooltip-common ((t (:inherit font-lock-constant-face))))))
-
-
-;;;; Org mode
-(setq org-hide-emphasis-markers t)
-
-
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;; KEYBINDING ZONE ;;;;;;;;;;;;;;;
@@ -381,8 +393,9 @@ Added a space into $skipChars - may cause trouble, may not - gcoh"
  '(neo-window-width 15)
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb"))
+ '(org-agenda-files '("~/carbocisteine.org"))
  '(package-selected-packages
-   '(diff-hl eglot tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
+   '(adaptive-wrap diff-hl eglot tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
  '(pos-tip-background-color "#4F4F4F")
  '(pos-tip-foreground-color "#FFFFEF")
  '(rust-indent-offset 4)
