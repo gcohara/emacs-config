@@ -29,11 +29,13 @@
   :bind
   (:map org-mode-map
         ("<M-right>" . nil)
-        ("<M-left>" . nil))
+        ("<M-left>" . nil)
+        ("s-<left>" . org-metaleft)
+        ("s-<right>" . org-metaright))
   :config
   (setq
    org-hide-emphasis-markers t
-   org-adapt-indentation t
+   org-startup-indented t
    org-startup-folded t
    org-clock-mode-line-total 'current))
 
