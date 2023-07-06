@@ -35,6 +35,7 @@
   :config
   (setq
    org-hide-emphasis-markers t
+   org-log-done 'time
    org-startup-indented t
    org-startup-folded t
    org-enforce-todo-dependencies t
