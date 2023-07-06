@@ -37,6 +37,7 @@
    org-hide-emphasis-markers t
    org-startup-indented t
    org-startup-folded t
+   org-enforce-todo-dependencies t
    org-clock-mode-line-total 'current))
 
 ;; ADAPTIVE-WRAP
@@ -154,9 +155,9 @@
 (setq lsp-log-io t)
 (add-hook 'python-mode-hook #'lsp) ; Autostart LSP for Python buffers
 
-;; Allows us to move around windows using shift and arrow keys
-(when (fboundp 'windmove-default-keybindings)
-  (windmove-default-keybindings))
+;; ;; Allows us to move around windows using shift and arrow keys
+;; (when (fboundp 'windmove-default-keybindings)
+;;   (windmove-default-keybindings))
 
 ;; Setq-default sets for all buffers
 (setq-default
