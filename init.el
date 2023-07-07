@@ -39,7 +39,12 @@
    org-startup-indented t
    org-startup-folded t
    org-enforce-todo-dependencies t
+   org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
+   org-refile-use-outline-path 'file
+   org-refile-targets '(("repeated.org" :maxlevel . 1))
    org-clock-mode-line-total 'current))
+
+  ;; (setq org-blank-before-new-entry '(heading . nil))
 
 ;; ADAPTIVE-WRAP
 ;; Makes wrapped lines indented
