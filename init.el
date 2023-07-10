@@ -41,12 +41,16 @@
    org-enforce-todo-dependencies t
    org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
    org-refile-use-outline-path 'file
-   org-refile-targets '(("repeated.org" :maxlevel . 1)
-                        ("diary.org" :maxlevel . 1)
-                        ("!todo.org" :maxlevel . 1)
-                        ("zbacklog.org" :maxlevel . 1)
-                        ("projects.org" :maxlevel . 1))
    org-clock-mode-line-total 'current))
+
+(if (string-equal system-name "FJH6HCXTJN")
+    (message "Work computer")
+  (setq org-refile-targets '(("repeated.org" :maxlevel . 1)
+                             ("diary.org" :maxlevel . 1)
+                             ("!todo.org" :maxlevel . 1)
+                             ("zbacklog.org" :maxlevel . 1)
+                             ("projects.org" :maxlevel . 1))))
+
 
   ;; (setq org-blank-before-new-entry '(heading . nil))
 
