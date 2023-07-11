@@ -40,7 +40,7 @@
    org-startup-folded t
    org-enforce-todo-dependencies t
    org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
-   org-refile-use-outline-path 'file
+   
    org-clock-mode-line-total 'current))
 
 (if (string-equal system-name "FJH6HCXTJN")
@@ -53,10 +53,8 @@
                              ("diary.org" :maxlevel . 1)
                              ("!todo.org" :maxlevel . 1)
                              ("zbacklog.org" :maxlevel . 1)
-                             ("projects.org" :maxlevel . 1))))
-
-
-  ;; (setq org-blank-before-new-entry '(heading . nil))
+                             ("projects.org" :maxlevel . 1))
+        org-refile-use-outline-path 'file))
 
 ;; ADAPTIVE-WRAP
 ;; Makes wrapped lines indented
