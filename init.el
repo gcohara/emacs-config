@@ -40,7 +40,7 @@
    org-startup-folded t
    org-enforce-todo-dependencies t
    org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
-   
+   org-cycle-separator-lines 1
    org-clock-mode-line-total 'current))
 
 (if (string-equal system-name "FJH6HCXTJN")
