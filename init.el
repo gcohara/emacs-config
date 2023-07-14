@@ -45,7 +45,7 @@
                               (todo . " %i %-12:c%b")
                               (tags . " %i %-12:c%b")
                               (search . " %i %-12:c%b"))
-   org-agenda-breadcrumbs-separator "/"
+   org-agenda-breadcrumbs-separator ">"
    org-clock-mode-line-total 'current))
 
 (if (string-equal system-name "FJH6HCXTJN")
@@ -59,7 +59,8 @@
                              ("!todo.org" :maxlevel . 1)
                              ("zbacklog.org" :maxlevel . 1)
                              ("projects.org" :maxlevel . 1))
-        org-refile-use-outline-path 'file))
+        org-refile-use-outline-path 'file
+        org-archive-location "~/org/archive.org::* From %s"))
 
 ;; ADAPTIVE-WRAP
 ;; Makes wrapped lines indented
