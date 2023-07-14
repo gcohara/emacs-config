@@ -39,6 +39,7 @@
    org-startup-indented t
    org-startup-folded t
    org-enforce-todo-dependencies t
+   org-archive-location "~/org/archive.org::* From %s"
    org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
    org-cycle-separator-lines 1
    org-clock-mode-line-total 'current))
