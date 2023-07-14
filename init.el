@@ -39,8 +39,13 @@
    org-startup-indented t
    org-startup-folded t
    org-enforce-todo-dependencies t
-   org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
+   org-blank-before-new-entry '((heading . 1) (plain-list-item . nil))
    org-cycle-separator-lines 1
+   org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t%s%b")
+                              (todo . " %i %-12:c%b")
+                              (tags . " %i %-12:c%b")
+                              (search . " %i %-12:c%b"))
+   org-agenda-breadcrumbs-separator "/"
    org-clock-mode-line-total 'current))
 
 (if (string-equal system-name "FJH6HCXTJN")
