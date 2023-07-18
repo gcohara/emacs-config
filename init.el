@@ -31,7 +31,8 @@
         ("<M-right>" . nil)
         ("<M-left>" . nil)
         ("s-<left>" . org-metaleft)
-        ("s-<right>" . org-metaright))
+        ("s-<right>" . org-metaright)
+        ("M-RET" . org-insert-subheading))
   :config
   (setq
    org-hide-emphasis-markers t
@@ -39,6 +40,8 @@
    org-startup-indented t
    org-startup-folded t
    org-enforce-todo-dependencies t
+   org-agenda-dim-blocked-tasks 'invisible
+   org-insert-heading-respect-content t
    org-blank-before-new-entry '((heading . 1) (plain-list-item . nil))
    org-cycle-separator-lines 1
    org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t%s%b")
