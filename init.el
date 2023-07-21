@@ -32,24 +32,26 @@
         ("<M-left>" . nil)
         ("s-<left>" . org-metaleft)
         ("s-<right>" . org-metaright)
-        ("M-RET" . org-insert-subheading))
+                                        ;("M-RET" . org-insert-subheading))
+        )
   :config
   (setq
-   org-hide-emphasis-markers t
+   ;org-hide-emphasis-markers t
    org-log-done 'time
    org-startup-indented t
    org-startup-folded t
-   org-enforce-todo-dependencies t
+   ;; org-enforce-todo-dependencies t
    org-agenda-dim-blocked-tasks 'invisible
    org-insert-heading-respect-content t
    org-blank-before-new-entry '((heading . 1) (plain-list-item . nil))
-   org-cycle-separator-lines 1
+   org-cycle-separator-lines 2
    org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t%s%b")
                               (todo . " %i %-12:c%b")
                               (tags . " %i %-12:c%b")
                               (search . " %i %-12:c%b"))
    org-agenda-breadcrumbs-separator ">"
    org-clock-mode-line-total 'current))
+
 
 (if (string-equal system-name "FJH6HCXTJN")
     ;; Work refile and agenda
