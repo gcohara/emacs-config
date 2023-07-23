@@ -63,7 +63,8 @@
                              ("diary.org" :maxlevel . 1)
                              ("!todo.org" :maxlevel . 1)
                              ("zbacklog.org" :maxlevel . 1)
-                             ("projects.org" :maxlevel . 1))
+                             ("projects.org" :maxlevel . 1)
+                             ("piano.org" :maxlevel . 1))
         org-refile-use-outline-path 'file
         org-archive-location "~/org/archive.org::* From %s"))
 
