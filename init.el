@@ -32,15 +32,24 @@
         ("<M-left>" . nil)
         ("s-<left>" . org-metaleft)
         ("s-<right>" . org-metaright)
-                                        ;("M-RET" . org-insert-subheading))
+        ("C-S-<left>" . org-shiftleft)
+        ("C-S-<right>" . org-shiftright)
         )
+  (:map org-read-date-minibuffer-local-map
+        ("C-S-<left>" . (lambda () (interactive)
+                        (org-eval-in-calendar '(calendar-backward-day 1))))
+        ("C-S-<right>" . (lambda () (interactive)
+                           (org-eval-in-calendar '(calendar-forward-day 1))))
+        ("C-S-<up>" . (lambda () (interactive)
+                        (org-eval-in-calendar '(calendar-backward-week 1))))
+        ("C-S-<down>" . (lambda () (interactive)
+                           (org-eval-in-calendar '(calendar-forward-week 1)))))
+  
   :config
   (setq
-   ;org-hide-emphasis-markers t
    org-log-done 'time
    org-startup-indented t
    org-startup-folded t
-   ;; org-enforce-todo-dependencies t
    org-agenda-dim-blocked-tasks 'invisible
    org-insert-heading-respect-content t
    org-blank-before-new-entry '((heading . 1) (plain-list-item . nil))
@@ -184,8 +193,8 @@
 (add-hook 'python-mode-hook #'lsp) ; Autostart LSP for Python buffers
 
 ;; ;; Allows us to move around windows using shift and arrow keys
-;; (when (fboundp 'windmove-default-keybindings)
-;;   (windmove-default-keybindings))
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
 
 ;; Setq-default sets for all buffers
 (setq-default
