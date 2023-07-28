@@ -37,13 +37,13 @@
         )
   (:map org-read-date-minibuffer-local-map
         ("C-S-<left>" . (lambda () (interactive)
-                        (org-eval-in-calendar '(calendar-backward-day 1))))
+                          (org-eval-in-calendar '(calendar-backward-day 1))))
         ("C-S-<right>" . (lambda () (interactive)
                            (org-eval-in-calendar '(calendar-forward-day 1))))
         ("C-S-<up>" . (lambda () (interactive)
                         (org-eval-in-calendar '(calendar-backward-week 1))))
         ("C-S-<down>" . (lambda () (interactive)
-                           (org-eval-in-calendar '(calendar-forward-week 1)))))
+                          (org-eval-in-calendar '(calendar-forward-week 1)))))
   
   :config
   (setq
@@ -59,7 +59,8 @@
                               (tags . " %i %-12:c%b")
                               (search . " %i %-12:c%b"))
    org-agenda-breadcrumbs-separator ">"
-   org-clock-mode-line-total 'current))
+   org-clock-mode-line-total 'current
+   org-archive-location "~/org/archive.org::* From %s"))
 
 
 (if (string-equal system-name "FJH6HCXTJN")
@@ -74,8 +75,7 @@
                              ("zbacklog.org" :maxlevel . 1)
                              ("projects.org" :maxlevel . 1)
                              ("piano.org" :maxlevel . 1))
-        org-refile-use-outline-path 'file
-        org-archive-location "~/org/archive.org::* From %s"))
+        org-refile-use-outline-path 'file))
 
 ;; ADAPTIVE-WRAP
 ;; Makes wrapped lines indented
@@ -232,9 +232,9 @@
 (setq show-paren-delay 0.0)
 (setq show-paren-style 'expression)
 ;; Ido mode
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(setq ido-auto-merge-work-directories-length -1)
+(setq ido-enable-flex-matching t
+      ido-everywhere t
+      ido-auto-merge-work-directories-length -1)
 
 (add-hook 'minibuffer-setup-hook 'turn-on-visual-line-mode)
 (add-hook 'text-mode-hook 'visual-line-mode)
@@ -262,8 +262,6 @@
 (electric-pair-mode 1)
 (delete-selection-mode 1) ;; delete selected text when typing
 
-
-
 ;; Move focus back to terminal after closing a server window
 (defun switch-back-focus ()
   (shell-command "open -a iTerm"))
@@ -275,7 +273,8 @@
   (and (string-match "^\*" name)
        (not (member name my-unignored-buffers))))
 (setq my-unignored-buffers '("*terminal*"))
-(setq ido-ignore-buffers '("\\` " my-ido-ignore-func "magit"))
+(setq ido-ignore-buffers '("\\` " my-ido-ignore-func "magit" ".DS_Store"))
+(add-to-list 'ido-ignore-files '".DS_Store")
 
 ;; ;;  color package
 ;;  (let ((bg (face-attribute 'default :background)))
@@ -290,15 +289,13 @@
 ;;;;;;;;;;;;;;; KEYBINDING ZONE ;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-                                        ; =============
 ;; MODIFIER KEYS
 ;; Both command keys are 'Super'
-(setq mac-right-command-modifier 'super)
-(setq mac-command-modifier 'super) 
-;; Option or Alt is naturally 'Meta'
-(setq mac-option-modifier 'meta)
-;; Right Alt (option) can be used to enter symbols like euros '€'.
-(setq mac-right-option-modifier 'nil)
+(setq mac-right-command-modifier 'super
+      mac-command-modifier 'super
+      ;; Option or Alt is naturally 'Meta'
+      mac-option-modifier 'meta
+      mac-right-option-modifier 'meta)
 ;; Use ESC as universal get me out of here command
 (global-set-key (kbd "s-a") 'mark-whole-buffer)       ;; select all
 (global-set-key (kbd "s-z") 'undo)
