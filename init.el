@@ -52,7 +52,7 @@
    org-startup-folded t
    org-agenda-dim-blocked-tasks 'invisible
    org-insert-heading-respect-content t
-   org-blank-before-new-entry '((heading . 1) (plain-list-item . nil))
+   org-blank-before-new-entry '((heading . auto) (plain-list-item . nil))
    org-cycle-separator-lines 2
    org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t%s%b")
                               (todo . " %i %-12:c%b")
