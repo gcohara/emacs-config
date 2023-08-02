@@ -50,17 +50,19 @@
    org-log-done 'time
    org-startup-indented t
    org-startup-folded t
+   org-log-state-notes-insert-after-drawers t
+   org-log-state-notes-into-drawer t
    org-agenda-dim-blocked-tasks 'invisible
    org-insert-heading-respect-content t
    org-blank-before-new-entry '((heading . auto) (plain-list-item . nil))
-   org-cycle-separator-lines 2
+   org-cycle-separator-lines -1
    org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t%s%b")
                               (todo . " %i %-12:c%b")
                               (tags . " %i %-12:c%b")
                               (search . " %i %-12:c%b"))
    org-agenda-breadcrumbs-separator ">"
    org-clock-mode-line-total 'current
-   org-archive-location "~/org/archive.org::* From %s"))
+   org-archive-location "~/org/archive::* From %s"))
 
 
 (if (string-equal system-name "FJH6HCXTJN")
