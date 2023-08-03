@@ -17,67 +17,14 @@
 ;; Change font
 (set-frame-font "IBM Plex Mono-14" nil t)
 
-
 ;; USE-PACKAGE 
 ;; Package used for configuration, loading, and downloading of packages
 ;; :init to run code before loading,
 ;; :config to run code after loading
 (eval-when-compile (require 'use-package))
 
-;; ORG-MODE
-(use-package org
-  :bind ("C-c a" . org-agenda)
-  (:map org-mode-map
-        ("<M-right>" . nil)
-        ("<M-left>" . nil)
-        ("s-<left>" . org-metaleft)
-        ("s-<right>" . org-metaright)
-        ("C-S-<left>" . org-shiftleft)
-        ("C-S-<right>" . org-shiftright)
-        )
-  (:map org-read-date-minibuffer-local-map
-        ("C-S-<left>" . (lambda () (interactive)
-                          (org-eval-in-calendar '(calendar-backward-day 1))))
-        ("C-S-<right>" . (lambda () (interactive)
-                           (org-eval-in-calendar '(calendar-forward-day 1))))
-        ("C-S-<up>" . (lambda () (interactive)
-                        (org-eval-in-calendar '(calendar-backward-week 1))))
-        ("C-S-<down>" . (lambda () (interactive)
-                          (org-eval-in-calendar '(calendar-forward-week 1)))))
-  
-  :config
-  (setq
-   org-log-done 'time
-   org-startup-indented t
-   org-startup-folded t
-   org-log-state-notes-insert-after-drawers t
-   org-log-state-notes-into-drawer t
-   org-agenda-dim-blocked-tasks 'invisible
-   org-insert-heading-respect-content t
-   org-blank-before-new-entry '((heading . auto) (plain-list-item . nil))
-   org-cycle-separator-lines -1
-   org-agenda-prefix-format '((agenda . " %i %-12:c%?-12t%s%b")
-                              (todo . " %i %-12:c%b")
-                              (tags . " %i %-12:c%b")
-                              (search . " %i %-12:c%b"))
-   org-agenda-breadcrumbs-separator ">"
-   org-clock-mode-line-total 'current
-   org-archive-location "~/org/archive::* From %s"))
-
-
-(if (string-equal system-name "FJH6HCXTJN")
-    ;; Work refile and agenda
-    (setq org-agenda-files (list "~/org/organiser.org")
-          org-agenda-todo-list-sublevels nil
-          )
-  ;; Home refile and agenda
-  (setq org-refile-targets '(("repeated.org" :maxlevel . 1)
-                             ("diary.org" :maxlevel . 1)
-                             ("!todo.org" :maxlevel . 1)
-                             ("zbacklog.org" :maxlevel . 1)
-                             ("projects.org" :maxlevel . 1)
-                             ("piano.org" :maxlevel . 1))
-        org-refile-use-outline-path 'file))
+(load-file "~/.emacs.d/config/myorg.el")
+(load-file "~/.emacs.d/config/diff_hl.el")
 
 ;; ADAPTIVE-WRAP
 ;; Makes wrapped lines indented
@@ -90,21 +37,26 @@
 (use-package simpleclip :ensure
   :config
   (simpleclip-mode 1))
+
 ;; EXPAND-REGION
 ;; Provides us with a shortcut to increase a selected region by semantic
 ;; units, i.e by word, then sentence, then quotes, brackets etc
 (use-package expand-region :ensure
   :bind ("C-=" . 'er/expand-region))
+
 ;; MAGIT
+;; Git frontend
 (use-package magit :ensure)
+
+;; COMPANY
+;; Completions
 (use-package company :ensure)
+
 ;; MOE THEME
 ;; Provides us with the theme
 (use-package moe-theme :ensure
   :config 'moe-dark)
-;; EGLOT
-;; LSP integration
-(use-package eglot :ensure)
+
 ;; EXEC-PATH-FROM-SHELL
 ;; Include path in shell when using terminal in emacs
 (use-package exec-path-from-shell :ensure
@@ -112,72 +64,28 @@
             (exec-path-from-shell-initialize))
   )
 
-(use-package diff-hl :ensure
-  :hook
-  (dired-mode . diff-hl-dired-mode)
-  (magit-pre-refresh . diff-hl-magit-pre-refresh)
-  (magit-post-refresh . diff-hl-magit-post-refresh)
-  (desktop-after-read . siren-diff-hl-set-render-mode)
 
-  :custom
-  (diff-hl-fringe-bmp-function 'siren-diff-hl-fringe-bmp-from-type)
-  (diff-hl-fringe-face-function 'siren-diff-hl-fringe-face-from-type)
-  (diff-hl-margin-symbols-alist
-   '((insert . "┃")
-     (delete . "┃")
-     (change . "┃")
-     (unknown . "?")
-     (ignored . "i")))
 
-  :preface
-  (defgroup siren-diff-hl nil
-    "Siren specific tweaks to diff-hl."
-    :group 'diff-hl)
+;; RUSTIC MODE
+(use-package rustic :ensure
+  :bind(:map rustic-mode-map
+             ("M-j" . lsp-ui-imenu)
+             ("M-?" . lsp-find-references)
+             ("C-c C-c a" . lsp-execute-code-action)
+             ("C-c C-c r" . lsp-rename)
+             ("C-c C-c q" . lsp-workspace-restart)))
 
-  (defface siren-diff-hl-insert
-    '((default :inherit diff-hl-insert))
-    "Face used to highlight inserted lines."
-    :group 'siren-diff-hl)
+(use-package lsp-mode :ensure)
 
-  (defface siren-diff-hl-delete
-    '((default :inherit diff-hl-delete))
-    "Face used to highlight deleted lines."
-    :group 'siren-diff-hl)
-
-  (defface siren-diff-hl-change
-    '((default :inherit diff-hl-change))
-    "Face used to highlight changed lines."
-    :group 'siren-diff-hl)
-
-  (defun siren-diff-hl-fringe-face-from-type (type _pos)
-    (intern (format "siren-diff-hl-%s" type)))
-
-  (defun siren-diff-hl-fringe-bmp-from-type(type _pos)
-    (intern (format "siren-diff-hl-%s" type)))
-
-  (defun siren-diff-hl-set-render-mode ()
-    (diff-hl-margin-mode (if window-system -1 1)))
-
-  :config
-  (siren-diff-hl-set-render-mode)
-  (fringe-mode 3)
-  (diff-hl-flydiff-mode 1)
-
-  (define-fringe-bitmap 'siren-diff-hl-insert
-    [#b11111111] nil nil '(center repeated))
-  (define-fringe-bitmap 'siren-diff-hl-change
-    [#b11111111] nil nil '(center repeated))
-  (define-fringe-bitmap 'siren-diff-hl-delete
-    [#b11111111] nil nil '(center repeated)))
-(global-diff-hl-mode)
-
-;; (use-package rustic
-;;   :bind(:map rustic-mode-map
-;;              ("M-j" . lsp-ui-imenu)
-;;              ("M-?" . lsp-find-references)
-;;              ("C-c C-c a" . lsp-execute-code-action)
-;;              ("C-c C-c r" . lsp-rename)
-;;              ("C-c C-c q" . lsp-workspace-restart)))
+;; ;; HIGHLIGHT INDENT
+;; ;; Provides indent highlighting
+;; (use-package highlight-indent-guides :ensure)
+;; (setq
+;;  highlight-indent-guides-method 'character
+;;  highlight-indent-guides-responsive 'nil
+;;  highlight-indent-guides-delay 100
+;;  )
+             
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
@@ -217,12 +125,7 @@
  indent-tabs-mode nil              ; By default, never indent using tabs
  )
 
-(setq
- highlight-indent-guides-method 'character
- highlight-indent-guides-responsive 'nil
- highlight-indent-guides-delay 100
- )
-                                        ; Company mode
+                           ; Company mode
 (setq company-dabbrev-downcase 0 
       company-idle-delay 0.0
       company-minimum-prefix-length 1)
