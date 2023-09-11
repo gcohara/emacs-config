@@ -25,7 +25,7 @@
    org-startup-indented t
    org-startup-folded t
    org-log-state-notes-insert-after-drawers t
-   org-log-state-notes-into-drawer t
+   ;; org-log-state-notes-into-drawer t
    org-agenda-dim-blocked-tasks 'invisible
    org-blank-before-new-entry '((heading . auto) (plain-list-item . nil))
    org-cycle-separator-lines 1
@@ -44,10 +44,4 @@
           org-agenda-todo-list-sublevels nil
           )
   ;; Home refile and agenda
-  (setq org-refile-targets '(("repeated.org" :maxlevel . 1)
-                             ("diary.org" :maxlevel . 1)
-                             ("!todo.org" :maxlevel . 1)
-                             ("zbacklog.org" :maxlevel . 1)
-                             ("projects.org" :maxlevel . 1)
-                             ("piano.org" :maxlevel . 1))
-        org-refile-use-outline-path 'file))
+  (setq org-agenda-files '("~/org")))

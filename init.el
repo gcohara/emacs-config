@@ -7,10 +7,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'package)
-(add-to-list 'package-archives
-             '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives
-             '("gnu" . "https://elpa.gnu.org/packages/"))
+(setq package-archives '(("melpa-stable" . "https://stable.melpa.org/packages/")
+                         ("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+(setq package-archive-priorities '(("melpa-stable" . 3)
+                                   ("melpa" . 2)
+                                   ("gnu" . 1)))
+
 
 ;; (package-initialize)
 ;; (package-refresh-contents)
@@ -75,17 +78,18 @@
              ("C-c C-c r" . lsp-rename)
              ("C-c C-c q" . lsp-workspace-restart)))
 
+;; LSP MODE
 (use-package lsp-mode :ensure)
 
-;; ;; HIGHLIGHT INDENT
-;; ;; Provides indent highlighting
-;; (use-package highlight-indent-guides :ensure)
-;; (setq
-;;  highlight-indent-guides-method 'character
-;;  highlight-indent-guides-responsive 'nil
-;;  highlight-indent-guides-delay 100
-;;  )
-             
+;; HIGHLIGHT INDENT
+;; Provides indent highlighting
+(use-package highlight-indent-guides :ensure)
+(setq
+ highlight-indent-guides-method 'character
+ highlight-indent-guides-responsive 'nil
+ highlight-indent-guides-delay 100
+ )
+
 
 (setq gc-cons-threshold 100000000)
 (setq read-process-output-max (* 1024 1024)) ;; 1mb
@@ -125,7 +129,7 @@
  indent-tabs-mode nil              ; By default, never indent using tabs
  )
 
-                           ; Company mode
+                                        ; Company mode
 (setq company-dabbrev-downcase 0 
       company-idle-delay 0.0
       company-minimum-prefix-length 1)
@@ -336,7 +340,7 @@ Added a space into $skipChars - may cause trouble, may not - gcoh"
  '(nrepl-message-colors
    '("#CC9393" "#DFAF8F" "#F0DFAF" "#488249" "#95d291" "#57a2a4" "#93E0E3" "#DC8CC3" "#bbb0cb"))
  '(package-selected-packages
-   '(adaptive-wrap diff-hl eglot tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
+   '(json-mode adaptive-wrap diff-hl eglot tramp rustic feature-mode magit lsp-ui use-package lsp-mode dockerfile-mode docker revert-buffer-all protobuf-mode sml-mode imenu-list yaml-mode auctex cmake-mode expand-region haskell-mode origami modern-cpp-font-lock moe-theme color-theme bison-mode lexbind-mode markdown-preview-mode flatui-theme plan9-theme solarized-theme markdown-mode neotree exec-path-from-shell yasnippet monokai-alt-theme monokai-pro-theme dracula-theme highlight-indent-guides fill-column-indicator company simpleclip monokai-theme geiser))
  '(pos-tip-background-color "#4F4F4F")
  '(pos-tip-foreground-color "#FFFFEF")
  '(rust-indent-offset 4)
